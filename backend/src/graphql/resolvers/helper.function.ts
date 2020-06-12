@@ -1,13 +1,24 @@
 import { EventSchema as Event, UserSchema as User } from '../../models';
 import { dateToString } from '../../helpers';
+import DataLoader from 'dataloader';
+import e from 'express';
+
+const eventLoader = new DataLoader((eventIds: any) => {
+  return events(eventIds);
+});
+
+const userLoader = new DataLoader((userIds: any) => {
+  return User.find({ _id: { $in: userIds } });
+});
 
 const user = async (userId) => {
   try {
-    const user: any = await User.findById(userId);
+    const user: any = await userLoader.load(userId.toString());
     return {
       ...user._doc,
       _id: user.id,
-      createdEvents: events.bind(globalThis, user._doc.createdEvents),
+      password: null,
+      createdEvents: () => eventLoader.loadMany(user._doc.createdEvents),
     };
   } catch (error) {
     throw error;
@@ -18,12 +29,7 @@ const events = async (eventIds) => {
   try {
     const events = await Event.find({ _id: { $in: eventIds } });
     return events.map((event: any) => {
-      return {
-        ...event._doc,
-        _id: event.id,
-        date: dateToString(event._doc.date),
-        creator: user.bind(globalThis, event.creator),
-      };
+      return transformEvent(event);
     });
   } catch (error) {
     throw error;
@@ -32,13 +38,8 @@ const events = async (eventIds) => {
 
 const fetchSingleEvent = async (eventID) => {
   try {
-    const event: any = await Event.findOne({ _id: eventID });
-    return {
-      ...event._doc,
-      _id: event.id,
-      date: dateToString(event._doc.date),
-      creator: user.bind(globalThis, event.creator),
-    };
+    const event: any = await eventLoader.load(eventID.toString());
+    return event;
   } catch (error) {
     throw error;
   }

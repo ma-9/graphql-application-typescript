@@ -1,0 +1,30 @@
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tabs-container button {
+  background-color: transparent;
+  color: black;
+  border: 1px solid #1a295e;
+}
+
+.tabs-container button:hover,
+.tabs-container button:active {
+  border: 0px solid #1a295e;
+  background-color: #516edb;
+  color: white;
+  border-bottom-width: 0.2rem;
+}
+
+.hr-container {
+  height: 0.1rem;
+  background-color: #516edb;
+  margin-bottom: 2rem;
+}
+
+.tab-data-container {
+  display: flex;
+  justify-content: center;
+}

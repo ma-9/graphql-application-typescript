@@ -5,7 +5,7 @@ export default {
   bookings: async (arga, req) => {
     if (!req.isAuth) return new Error('Unauthonticated!');
     try {
-      const bookings = await Booking.find();
+      const bookings = await Booking.find({ user: req.userId });
       return bookings.map((booking: any) => {
         return transformBooking(booking);
       });
@@ -19,7 +19,7 @@ export default {
     try {
       const fetchedEvent = await Event.findOne({ _id: eventId });
       const newBooking = new Booking({
-        user: '5edccd0e8ceb0531f81b6c73',
+        user: req.userId,
         event: fetchedEvent,
       });
       const result: any = await newBooking.save();

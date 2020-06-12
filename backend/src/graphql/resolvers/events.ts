@@ -14,7 +14,9 @@ export default {
     }
   },
   createEvent: async (args, req) => {
-    if (!req.isAuth) return new Error('Unauthonticated!');
+    if (!req.isAuth) {
+      return new Error('Unauthonticated!');
+    }
     const { title, description, price, date } = args.eventInput;
     var createdEvent;
     const event = new Event({
@@ -22,10 +24,10 @@ export default {
       description,
       price,
       date: dateToString(date),
-      creator: '5edccd0e8ceb0531f81b6c73',
+      creator: req.userId,
     });
     try {
-      const creator: any = await User.findById('5edccd0e8ceb0531f81b6c73');
+      const creator: any = await User.findById(req.userId);
       if (!creator) {
         throw new Error("User Doesn't exist ");
       } else {

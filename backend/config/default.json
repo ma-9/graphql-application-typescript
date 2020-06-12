@@ -1,3 +1,4 @@
 {
-  "MongoDB_URI": "mongodb+srv://admin:admin123@protrasys-admin-raot8.mongodb.net/graphql-application?retryWrites=true&w=majority"
+  "MongoDB_URI": "mongodb://localhost:27017/graphql-application",
+  "jwtSecret": "badboysecurities-graphql"
 }

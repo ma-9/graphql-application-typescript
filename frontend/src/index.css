@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, sans-serif;
+  background-color: azure;
+}
+
+button {
+  margin: 0rem 1rem;
+  height: 2rem;
+  width: 10rem;
+  background-color: #516edb;
+  color: white;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: #1a295e;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.create-event-form .form-control {
+  width: 100%;
+}
+
+.form-control label {
+  margin-bottom: 0.2rem;
+}
+
+.form-control input {
+  margin-bottom: 1rem;
+  height: 2rem;
+  font-size: 18px;
+}

@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
+import { jwtSecret } from '../helpers';
 
-export const isAuthenticated = (req, res, next) => {
+export const isAuthenticated = async (req, res, next) => {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
     req.isAuth = false;
@@ -11,19 +12,19 @@ export const isAuthenticated = (req, res, next) => {
     req.isAuth = false;
     return next();
   }
-  let decodedToken;
+  let decodedToken: any;
   try {
-    decodedToken = jwt.verify(token, 'badboysecurtities-graphql');
+    decodedToken = await jwt.verify(token, jwtSecret);
   } catch (error) {
+    console.log(error);
     req.isAuth = false;
     return next();
   }
   if (!decodedToken) {
     req.isAuth = false;
     return next();
-  } else {
-    req.isAuth = true;
-    req.userId = decodedToken.userId;
-    return next();
   }
+  req.isAuth = true;
+  req.userId = decodedToken.userId;
+  next();
 };

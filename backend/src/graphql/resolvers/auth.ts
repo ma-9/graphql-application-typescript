@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { UserSchema as User } from '../../models';
 import jwt from 'jsonwebtoken';
+import { jwtSecret } from '../../helpers';
 
 export default {
   createUser: async (args: any) => {
@@ -35,7 +36,7 @@ export default {
         } else {
           const token = jwt.sign(
             { userId: user.id, email: user.email },
-            'badboysecurities-graphql',
+            jwtSecret,
             { expiresIn: '1h' }
           );
           return { userId: user.id, token, tokenExpiration: 1 };
